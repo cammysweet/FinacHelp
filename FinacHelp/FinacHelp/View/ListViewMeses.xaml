@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinacHelp.View.ListViewMeses"
+             Title="ListView">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="0" Android="0" WinPhone="0" />
+    </ContentPage.Padding>
+
+    <ContentPage.BackgroundColor>
+        #f4f4f4
+    </ContentPage.BackgroundColor>
+
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Icon="search.png" x:Name="toolbarItemSearch" Clicked="OnTapGestureRecognizerSearch" ></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+
+            <!--<StackLayout Padding="12,8,8,0" Orientation="Horizontal" Spacing="0">
+                <Label x:Name="txtPrefixoTitulo" Text="Vagas para" FontSize="12" TextColor="#000000" Opacity="0.54" VerticalTextAlignment="Center" LineBreakMode="WordWrap"  Margin="0"/>
+                <Label x:Name="txtFuncaoCidade" Text="" FontSize="12" FontAttributes="Bold" TextColor="#000000" Opacity="0.54" VerticalTextAlignment="Center" LineBreakMode="WordWrap" Margin="0" />
+            </StackLayout>-->
+
+            <Label Font="Bold,20" x:Name="labelLoader" TextColor="#4a90e2" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" IsVisible="False" Text="Carregando meses, por favor aguarde." />
+            <ActivityIndicator Color="#4a90e2" IsRunning="false" x:Name="loader" IsVisible="false"/>
+            <!--<StackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="20,0,0,0" x:Name="validacoesPesquisa" IsVisible="False" >
+                <Image x:Name="imgSad" Source="sentiment_neutral.png" HorizontalOptions="Fill" IsVisible="false"></Image>
+                <Label x:Name="lblValidacaoPesquisa" TextColor="#000000" Text="11" FontSize="14" XAlign="Center"></Label>
+            </StackLayout>-->
+
+            <ScrollView Padding="8, 0, 8, 0" VerticalOptions="FillAndExpand">
+                <ListView x:Name="lstView"  HasUnevenRows="true" VerticalOptions="Fill" BackgroundColor="#f4f4f4" SeparatorVisibility="None" ItemAppearing="ItemAppearing">
+                    <ListView.ItemTemplate SelectedItem="teste">
+                        <DataTemplate>
+                            <ViewCell AutomationId="viewCellVaga">
+                                <StackLayout Orientation="Vertical" BackgroundColor="{Binding CorFundo}" Padding="16, 12, 16, 20" VerticalOptions="Fill"  Spacing="0" Margin="0, 4">
+                                    <!--<StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                                        <Image Source="{Binding SourceImagemListVagas}" IsVisible="{Binding MostraImagem}" HeightRequest="20" WidthRequest="96" HorizontalOptions="StartAndExpand"/>
+                                        <Image Source="{Binding SourceCheckVagaCandidatada}" IsVisible="{Binding MostraCheckCandidatada}" HeightRequest="20" WidthRequest="20" HorizontalOptions="End"/>
+                                    </StackLayout>
+                                    <Label Text="{Binding Funcao}" FontSize="24" FontAttributes="Bold" TextColor="#000000" Opacity="0.87" Margin="0"/>
+                                    <StackLayout Orientation="Horizontal" Margin="0,4,0,0" IsVisible="{Binding MostraEmpresa}">
+                                        <Label Text="Empresa:" FontAttributes="Bold"  FontSize="14" TextColor="#000000" Opacity="0.54"/>
+                                        <Label Text="{Binding EmpresaResumida}" FontSize="14" TextColor="#000000" Opacity="0.54"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Margin="0,4,0,0">
+                                        <Label Text="Salário:" FontAttributes="Bold"  FontSize="14" TextColor="#000000" Opacity="0.54"/>
+                                        <Label Text="{Binding Salario}" FontSize="14" TextColor="#000000" Opacity="0.54"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,4">
+                                        <Label Text="Localização:" FontAttributes="Bold"  FontSize="14" TextColor="#000000" Opacity="0.54"/>
+                                        <Label Text="{Binding CidadeEstado}" FontSize="14" TextColor="#000000" Opacity="0.54"/>
+                                    </StackLayout>-->
+                                    <Label Text="{Binding MesAno}" FontSize="14" TextColor="#000000" Opacity="0.54" Margin="0" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
