@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using FinacHelp.View;
 using Xamarin.Forms;
 
 namespace FinacHelp
@@ -13,7 +9,7 @@ namespace FinacHelp
         {
             InitializeComponent();
 
-            MainPage = new FinacHelp.MainPage();
+            MainPage = new ListViewMeses();
         }
 
         protected override void OnStart()

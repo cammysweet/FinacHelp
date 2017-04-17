@@ -2,7 +2,9 @@
 {
     public class MesAno
     {
-        public string Mes { get; set; }
-        public string Ano { get; set; }
+        public int Mes { get; set; }
+        public int Ano { get; set; }
+        public string MesStr { get; set; }
+        public string AnoStr { get; set; }
     }
 }

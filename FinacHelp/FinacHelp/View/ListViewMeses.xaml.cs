@@ -15,17 +15,6 @@ namespace FinacHelp.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListViewMeses : ContentPage
     {
-        #region Atributos
-        private readonly ObservableCollection<MesAno> _listVagas = new ObservableCollection<MesAno>();
-        private readonly int _idCidade;
-        private readonly int? _funcao;
-        private readonly Guid _idUsuario;
-
-        private bool _carregandoLista = false;
-        private bool _fimDaLista = false;
-        private int _pagina;
-        #endregion
-
         public ListViewMeses()
         {
             InitializeComponent();
@@ -51,45 +40,16 @@ namespace FinacHelp.View
 
     class ListViewMesesViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Item> Items { get; }
-        public ObservableCollection<Grouping<string, Item>> ItemsGrouped { get; }
-
-        public ListViewMesesViewModel()
-        {
-            Items = new ObservableCollection<Item>(new[]
-            {
-                new Item { Text = "Baboon", Detail = "Africa & Asia" },
-                new Item { Text = "Capuchin Monkey", Detail = "Central & South America" },
-                new Item { Text = "Blue Monkey", Detail = "Central & East Africa" },
-                new Item { Text = "Squirrel Monkey", Detail = "Central & South America" },
-                new Item { Text = "Golden Lion Tamarin", Detail= "Brazil" },
-                new Item { Text = "Howler Monkey", Detail = "South America" },
-                new Item { Text = "Japanese Macaque", Detail = "Japan" },
-            });
-
-            var sorted = from item in Items
-                         orderby item.Text
-                         group item by item.Text[0].ToString() into itemGroup
-                         select new Grouping<string, Item>(itemGroup.Key, itemGroup);
-
-            ItemsGrouped = new ObservableCollection<Grouping<string, Item>>(sorted);
-
-            RefreshDataCommand = new Command(
-                async () => await RefreshData());
-        }
-
-        public ICommand RefreshDataCommand { get; }
-
-        async Task RefreshData()
-        {
-            IsBusy = true;
-            //Load Data Here
-            await Task.Delay(2000);
-
-            IsBusy = false;
-        }
-
+        #region Atributos
         bool busy;
+        DateTime hoje = DateTime.Now;
+        MesAno mesAnoAtual;
+        #endregion
+
+        #region Propriedades
+        public ObservableCollection<MesAno> Items { get; }
+        public ObservableCollection<Grouping<int, MesAno>> ItemsGrouped { get; }
+        public ICommand RefreshDataCommand { get; }
         public bool IsBusy
         {
             get { return busy; }
@@ -100,19 +60,45 @@ namespace FinacHelp.View
                 ((Command)RefreshDataCommand).ChangeCanExecute();
             }
         }
+        #endregion
 
+        #region Construtor
+        public ListViewMesesViewModel()
+        {
+            mesAnoAtual = new MesAno { Mes = hoje.Month, Ano = hoje.Year };
+            Items = new ObservableCollection<MesAno>(new[]
+            {
+                mesAnoAtual,
+                new MesAno{ Mes = mesAnoAtual.Mes-1, Ano = mesAnoAtual.Ano },
+                new MesAno{ Mes = mesAnoAtual.Mes+1, Ano = mesAnoAtual.Ano }
+            });
+
+            var sorted = from item in Items
+                         orderby item.Mes
+                         group item by item.Mes into itemGroup
+                         select new Grouping<int, MesAno>(itemGroup.Key, itemGroup);
+
+            ItemsGrouped = new ObservableCollection<Grouping<int, MesAno>>(sorted);
+
+            RefreshDataCommand = new Command(
+                async () => await RefreshData());
+        } 
+        #endregion
+
+        async Task RefreshData()
+        {
+            IsBusy = true;
+            //Load Data Here
+           mesAnoAtual = new MesAno { Mes = hoje.Month, Ano = hoje.Year };
+
+            await Task.Delay(2000);
+
+            IsBusy = false;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        public class Item
-        {
-            public string Text { get; set; }
-            public string Detail { get; set; }
-
-            public override string ToString() => Text;
-        }
 
         public class Grouping<K, T> : ObservableCollection<T>
         {
